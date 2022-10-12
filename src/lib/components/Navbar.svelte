@@ -1,3 +1,7 @@
+ <script lang="ts">
+import { appUser, logout } from '$lib/store/userStore'
+ </script>
+
  <nav class="border-b bg-white">
   <div class="max-w-5xl mx-auto px-2 py-3 flex flex-row items-center justify-between">
     <a href="/" class="text-2xl font-bold text-stone-500 tracking-wide">Blog</a>
@@ -28,7 +32,7 @@
       </li>
       <li>
         <a href="?cat=cinema" class="uppercase">
-          <i class="fa-solid fa-camera-movie"></i>
+          <i class="fa-solid fa-film"></i>
           영화
         </a>
       </li>
@@ -45,8 +49,14 @@
         </a>
       </li>
     </ul>
+    {#if $appUser}
+    <button class="btn btn-primary btn-sm" on:click={logout}>
+      로그아웃
+    </button>
+    {:else} 
     <a href="/login" class="btn btn-primary btn-sm">
       로그인
     </a>
+    {/if}
   </div>
  </nav>
