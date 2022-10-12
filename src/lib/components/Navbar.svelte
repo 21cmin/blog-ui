@@ -49,14 +49,20 @@ import { appUser, logout } from '$lib/store/userStore'
         </a>
       </li>
     </ul>
-    {#if $appUser}
-    <button class="btn btn-primary btn-sm" on:click={logout}>
-      로그아웃
-    </button>
-    {:else} 
-    <a href="/login" class="btn btn-primary btn-sm">
-      로그인
-    </a>
-    {/if}
+    <div class="flex gap-5 items-center justify-between">
+      <a href={'/write'} class="flex items-center gap-1 btn btn-sm btn-outline btn-secondary hover:btn-active">
+        <i class="fa-solid fa-pen"></i>
+        <span>포스팅</span>
+      </a>
+      {#if $appUser}
+      <button class="btn btn-primary btn-sm" on:click={logout}>
+        로그아웃
+      </button>
+      {:else} 
+      <a href="/login" class="btn btn-primary btn-sm">
+        로그인
+      </a>
+      {/if}
+    </div>
   </div>
  </nav>
