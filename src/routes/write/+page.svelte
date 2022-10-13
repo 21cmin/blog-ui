@@ -7,7 +7,6 @@
 	let file: FileList | null = null
 	
   let post: Post = {
-		id: 0,
 		title: "",
 		description: "",
 		imageUrl: "",
@@ -19,17 +18,31 @@
 		post.username = value ? value.username : ""
 	})
 
-	function handleUpload() {
+	async function handleUpload() {
 		if (!post.username || !post.title || !post.description) {
 			console.log("포스트 데이터가 없습니다");
 			alert("포스트를 입력하세요")	
+		} else {
+			try {
+				await uploadPost(post, file)
+				clearData()
+				alert("포스트가 업로드 되었습니다.")
+			} catch(error) {
+				console.log(error);
+				alert("포스트 업로드에 실패했습니다.")
+			}
 		}
-		try {
-			uploadPost(post, file)
-		} catch(error) {
-			console.log(error);
-			alert("포스트 업로드에 실패했습니다.")
+	}
+
+	function clearData() {
+		post = {
+			title: "",
+			description: "",
+			imageUrl: "",
+			category: "art",
+			username: ""
 		}
+		file = null
 	}
 	
 	onDestroy(unsubscribe)	

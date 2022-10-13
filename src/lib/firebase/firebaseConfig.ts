@@ -21,5 +21,10 @@ export const uploadPost = async (post: Post, file: FileList | null): Promise<nev
     const imgRef = ref(storage, `${post.username}/${selectedFile.name}`)
     const snapshot = await uploadBytes(imgRef, selectedFile)
     post.imageUrl = snapshot.ref.fullPath
+    console.log(`post url: ${post.imageUrl}`);
+    
   }
+
+  const result = await axios.post('/api/post', post)
+  console.log(result.data);
 }

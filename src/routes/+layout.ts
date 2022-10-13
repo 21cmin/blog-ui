@@ -9,6 +9,8 @@ export const load: LayoutLoad = async ({ fetch }) => {
     if (result.status === 200) {
       const name = await result.text()
       appUser.set({ username: name })
+      console.log(`user: ${name}`);
+      
     }
   } catch(err) {
     console.log(err);

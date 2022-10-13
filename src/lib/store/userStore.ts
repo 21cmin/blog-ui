@@ -16,10 +16,13 @@ export const login = async (user: UserAndPassword, goToMain: boolean = false): P
   if (goToMain) goto('/')
 }
 
-export const logout = () => {
-  let date = new Date(99, 1)
-  document.cookie = `refresh_token=; expires=${date};`
-  document.cookie = `haha=; expires=Thu, 01 Jan 1999 00:00:10 GMT;`
+export const logout = async () => {
+  try {
+    appUser.set(null)
+    await axios.get("/api/user/logout")
+  } catch(error) {
+    console.log(error);
+  }
 }
 
 export const verifyUser = async () => {

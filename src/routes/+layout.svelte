@@ -1,14 +1,7 @@
 <script lang="ts">
 import Footer from "$lib/components/Footer.svelte";
 import Navbar from "$lib/components/Navbar.svelte";
-	import { verifyUser } from "$lib/store/userStore";
-import { onMount } from "svelte";
 import "../app.css"
-
-onMount(() => {
-})
-
-
 
 </script>
 <div class="flex min-h-screen flex-col">

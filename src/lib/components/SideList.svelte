@@ -2,7 +2,7 @@
   import { posts } from "$lib/data/posts";
 
 </script>
-<aside class="flex-[2]">
+<aside class="flex-[2] md:block hidden">
   <h1 class="text-[18px] text-gray-700 text-center mb-2">좋아할 만한 포스트</h1>
   <div class="flex flex-col gap-7">
     {#each posts as post (post.id)}

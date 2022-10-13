@@ -5,8 +5,8 @@
 </script>
 <section class="flex flex-col items-center gap-20 mb-10">
   {#each posts as post (post.id)}
-  <div class="flex gap-10 flex-row odd:flex-row-reverse">
-    <div class="flex-[2] rounded overflow-hidden shadow-xl">
+  <div class="flex gap-10 flex-row odd:flex-row-reverse card">
+    <div class="flex-[2] rounded overflow-hidden shadow-xl image-wrapper">
       <img src="{post.img}" alt="{post.title}" class="object-cover w-full aspect-square">
     </div>
     <div class="flex-[3] flex flex-col gap-4">
@@ -20,3 +20,16 @@
   </div>
   {/each}
 </section>
+
+<style>
+  @media (max-width: 630px) {
+    .card {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card .image-wrapper {
+      max-width: 80%;
+    }
+  }
+</style>
