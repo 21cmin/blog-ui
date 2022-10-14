@@ -13,7 +13,7 @@
 	  category: "art",
 	  username: "",
 	  id: 0,
-	  createadAt: ''
+	  createdAt: ''
   }
 
 	const unsubscribe = appUser.subscribe(value => {

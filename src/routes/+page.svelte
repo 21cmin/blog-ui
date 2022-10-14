@@ -2,6 +2,7 @@
   import type { PageData } from './$types';
   export let data: PageData;
   $: posts = data.posts;
+  
 </script>
 <section class="flex flex-col items-center gap-20 mb-10">
   {#each posts as post (post.id)}

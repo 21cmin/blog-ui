@@ -57,7 +57,7 @@ function handleMenuClick() {
           </a>
         </li>
         <li>
-          <a href="?cat=food">
+          <a href="/?cat=food">
             <i class="fa-solid fa-bowl-food"></i>
             <span class="menu-text">음식</span>
           </a>
