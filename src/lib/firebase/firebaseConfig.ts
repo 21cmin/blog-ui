@@ -1,7 +1,7 @@
 import type { Post } from "$lib/model/Post";
 import axios from "axios";
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes } from 'firebase/storage'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 const firebaseConfig = {
   apiKey: "AIzaSyA1u5z_kThWjef2rNb_LsFCpEtNx5HB_bg",
@@ -19,12 +19,20 @@ export const uploadPost = async (post: Post, file: FileList | null): Promise<nev
   if (file && file[0]) {
     const selectedFile = file[0]
     const imgRef = ref(storage, `${post.username}/${selectedFile.name}`)
-    const snapshot = await uploadBytes(imgRef, selectedFile)
-    post.imageUrl = snapshot.ref.fullPath
-    console.log(`post url: ${post.imageUrl}`);
+    console.log(imgRef.fullPath);
     
+    const snapshot = await uploadBytes(imgRef, selectedFile)
+    post.imageUrl = await makeImageUrl(snapshot.ref.fullPath)
   }
+  console.log(post);
+  
 
-  const result = await axios.post('/api/post', post)
+  const result = await axios.post('/api/post/upload', post)
   console.log(result.data);
+  
+}
+
+export const makeImageUrl = async (url:string) => {
+  const result = await getDownloadURL(ref(storage, url)) 
+  return result
 }

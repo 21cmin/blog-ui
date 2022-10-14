@@ -23,34 +23,34 @@ function handleMenuClick() {
           </a>
         </li>
         <li>
-          <a href="?cat=art">
+          <a href="/?cat=art">
             <i class="fa-sharp fa-solid fa-palette"></i>
             <span class="menu-text">예술</span>
             
           </a>
         </li>
         <li>
-          <a href="?cat=science">
+          <a href="/?cat=science">
             <i class="fa-solid fa-flask"></i>
             <span class="menu-text">과학</span>
             
           </a>
         </li>
         <li>
-          <a href="?cat=technology">
+          <a href="/?cat=technology">
             <i class="fa-solid fa-microchip"></i>
             <span class="menu-text">기술</span>
           </a>
         </li>
         <li>
-          <a href="?cat=cinema">
+          <a href="/?cat=cinema">
             <i class="fa-solid fa-film"></i>
             <span class="menu-text">영화</span>
             
           </a>
         </li>
         <li>
-          <a href="?cat=design">
+          <a href="/?cat=design">
             <i class="fa-solid fa-ruler-combined"></i>
             <span class="menu-text">디자인</span>
             
@@ -64,7 +64,8 @@ function handleMenuClick() {
         </li>
       </ul>
       <div class="flex gap-5 items-center justify-between">
-        <a href={'/write'} class="flex items-center gap-1 btn btn-sm btn-outline btn-secondary hover:btn-active">
+        <a href={$appUser ? '/write' : '/login'} 
+          class="flex items-center gap-1 btn btn-sm btn-outline btn-secondary hover:btn-active">
           <i class="fa-solid fa-pen"></i>
           <span class="">포스팅</span>
         </a>

@@ -7,12 +7,14 @@
 	let file: FileList | null = null
 	
   let post: Post = {
-		title: "",
-		description: "",
-		imageUrl: "",
-		category: "art",
-		username: ""
-	}
+	  title: "",
+	  description: "",
+	  imageUrl: "",
+	  category: "art",
+	  username: "",
+	  id: 0,
+	  createadAt: ''
+  }
 
 	const unsubscribe = appUser.subscribe(value => {
 		post.username = value ? value.username : ""
@@ -35,13 +37,9 @@
 	}
 
 	function clearData() {
-		post = {
-			title: "",
-			description: "",
-			imageUrl: "",
-			category: "art",
-			username: ""
-		}
+		post.title = ''
+		post.description = ''
+		post.category = 'art'
 		file = null
 	}
 	

@@ -11,7 +11,8 @@ export const login = async (user: UserAndPassword, goToMain: boolean = false): P
   userForm.append("password", user.password)
   const result = await axios.post("/api/login", userForm)
   if (result.status !== 200) throw new Error("login failed")
-  const loginUser: User = { username: result.data }
+  const loginUser: User = { username: result.data.username }
+  
   appUser.set(loginUser)
   if (goToMain) goto('/')
 }
