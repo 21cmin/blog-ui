@@ -2,10 +2,10 @@ import type { PageLoad } from './$types';
 import type { Post } from '$lib/model/Post';
 export const load: PageLoad = async ({ fetch, url }) => {
   let posts: Post[] = []
-  const query = url.searchParams.get('cat')
+  const category = url.searchParams.get('cat')
   
   try {
-    const url = `/api/post${query ? '/category?cat=' + query : ""}`
+    const url = '/api/post' + (category ? `/category?cat=${category}` : '?page=0')
     const result = await fetch(url, {
       method: 'get'
     })

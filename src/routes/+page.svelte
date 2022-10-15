@@ -1,7 +1,44 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+	import type { Post } from '$lib/model/Post';
+	import axios from 'axios';
+	import { onMount, onDestroy } from 'svelte';
   import type { PageData } from './$types';
   export let data: PageData;
   $: posts = data.posts;
+  let pageParam = 0
+  let scrollOffset = 1
+  
+  $: if (scrollOffset == 0) getPage()
+
+  onMount(() => {
+    window.addEventListener('scroll', () => {
+      scrollOffset = document.body.scrollHeight - window.innerHeight - window.scrollY
+    })
+  })
+
+  async function getPage() {
+    if ($page.url.search) return
+    try {
+      const result = await axios.get(`/api/post?page=${++pageParam}`)
+      const pagePost: Post[] = result.data
+      
+      if (pagePost.length !== 0) {
+        posts = posts.concat(pagePost)
+      } else {
+        throw new Error("failed to get page post")
+      }
+    } catch(error) {
+      --pageParam
+      console.log(error);
+    }
+
+  }
+  const unsbscribe = page.subscribe((value) => {
+    pageParam = 0
+  })
+
+  onDestroy(unsbscribe)
   
 </script>
 <section class="flex flex-col items-center gap-20 mb-10">

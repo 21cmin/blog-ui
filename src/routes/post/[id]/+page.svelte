@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
   import SideList from '$lib/components/SideList.svelte';
 	import { appUser } from '$lib/store/userStore';
 	import axios from 'axios';
@@ -7,6 +8,8 @@
   export let data: PageData;
 	
   $: post = data.post;
+
+	$: time = new Date(post ? post.createdAt : '').toLocaleString()
 
 
   async function handleDelete() {
@@ -23,6 +26,8 @@
 			console.log(error);
 		}
 	}
+	console.log($page.url);
+	
 
 </script>
 
@@ -35,7 +40,7 @@
 			{/if}
 			<div>
 				<span class="font-bold">{post?.username}</span>
-				<p>Posted {post?.createdAt}</p>
+				<p>Posted {time}</p>
 			</div>
 			{#if $appUser?.username === post?.username}
 			<div class="flex gap-2">
