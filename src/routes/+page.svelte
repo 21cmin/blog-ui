@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import type { Post } from '$lib/model/Post';
+	import { login } from '$lib/store/userStore';
 	import axios from 'axios';
 	import { onMount, onDestroy } from 'svelte';
   import type { PageData } from './$types';
@@ -16,6 +17,11 @@
       scrollOffset = document.body.scrollHeight - window.innerHeight - window.scrollY
     })
   })
+
+  function handleLikeClicked() {
+    console.log('like click!!');
+    
+  }
 
   async function getPage() {
     if ($page.url.search) return
@@ -44,8 +50,14 @@
 <section class="flex flex-col items-center gap-20 mb-10">
   {#each posts as post (post.id)}
   <div class="flex gap-10 flex-row odd:flex-row-reverse card-wrapper w-full">
-    <div class="flex-[2] overflow-hidden shadow-xl image-wrapper rounded-lg">
+    <div class="flex-[2] overflow-hidden shadow-xl image-wrapper rounded-lg flex flex-col items-start">
       <img src="{post.imageUrl}" alt="{post.title}" class="object-cover w-full aspect-square">
+      <div class="text-lg p-3">
+        <label for="like" class="cursor-pointer">like</label>
+        <button id="like" on:click={handleLikeClicked}>
+          <i class="fa-regular fa-heart"></i>
+        </button>
+      </div>
     </div>
     <div class="flex-[3] flex flex-col gap-4">
       <a href={`/post/${post.id}`} class="font-semibold text-2xl">
