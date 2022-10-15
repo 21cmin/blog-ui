@@ -8,9 +8,20 @@ export const load: LayoutLoad = async ({ fetch }) => {
     })
     if (result.status === 200) {
       const name = await result.text()
-      appUser.set({ username: name })
+      appUser.set(name ? { username : name} : null)
       console.log(`user: ${name}`);
-    } 
+    } else if (result.status === 403) {
+      console.log('send refresh token');
+      const result = await fetch('/api/user/refresh', {
+        method: 'GET'
+      })
+      if (result.status === 200) {
+        const name = await result.text()
+        appUser.set(name ? { username : name} : null)
+        console.log(`user: ${name}`);
+      }
+    }
+    
   } catch(err) {
     console.log(err);
     console.log('verify failed');

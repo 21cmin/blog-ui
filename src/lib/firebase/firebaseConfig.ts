@@ -15,7 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app)
 
-export const uploadPost = async (post: Post, file: FileList | null): Promise<never | void> => {
+export const uploadPost = async (post: Post, file: FileList | null, update: boolean): Promise<never | void> => {
   if (file && file[0]) {
     const selectedFile = file[0]
     const imgRef = ref(storage, `${post.username}/${selectedFile.name}`)
@@ -26,9 +26,13 @@ export const uploadPost = async (post: Post, file: FileList | null): Promise<nev
   }
   console.log(post);
   
-
-  const result = await axios.post('/api/post/upload', post)
-  console.log(result.data);
+  if (update) {
+    const result = await axios.put(`/api/post/${post.id}`, post)
+    console.log(result.data);
+  } else {
+    const result = await axios.post('/api/post/upload', post)
+    console.log(result.data);
+  }
   
 }
 

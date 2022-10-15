@@ -3,20 +3,22 @@ import type { Post } from '$lib/model/Post';
 
 export const load: PageLoad = async ({ params, fetch }) => {
   let post: Post | null = null
+  let posts: Post[] = []
   try {
-    const result = await fetch(`/api/post/${params.id}`, {
+    let result = await fetch(`/api/post/${params.id}`, {
       method: 'GET'
     })
     if (result.ok) {
       post = await result.json()
-      console.log(post);
-      console.log(post?.createdAt);
-      
     }
+
+    result = await fetch(`/api/post/category?cat=${post?.category}`)
+    if (result.ok) {
+      posts = await result.json()
+    }
+
   } catch(error) {
     console.log(error);
   }
-  return {
-    post
-  }
+  return { post, posts }
 }

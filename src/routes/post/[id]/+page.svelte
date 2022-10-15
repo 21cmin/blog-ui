@@ -1,25 +1,35 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
   import SideList from '$lib/components/SideList.svelte';
 	import { appUser } from '$lib/store/userStore';
+	import axios from 'axios';
 	import type { PageData } from './$types';
   export let data: PageData;
+	
   $: post = data.post;
 
 
-  // async function handleDelete() {
-	// 	try {
-	// 		await axios.delete(`/api/posts/${$page.params.id}`)
-	// 		goto('/')
-	// 	}	catch(err) {
-	// 		console.log(err);
-	// 	}
-	// }
+  async function handleDelete() {
+		if (!post?.id) return
+		try {
+			const result = await axios.delete(`/api/post/${post.id}`)
+			if (result.status === 202) {
+				alert("post is deleted successfully")
+				goto('/')
+			} else {
+				throw new Error('failed to delete post')
+			}
+		} catch(error) {
+			console.log(error);
+		}
+	}
+
 </script>
 
 <section class="flex gap-12 p-4">
 	<div class="flex-[5] flex flex-col gap-8">
 		<img src={post?.imageUrl} alt={post?.description} class="w-full h-[300px] object-cover" />
-		<div class="flex items-center gap-4 text-sm">
+		<div class="flex items-center gap-5 text-sm">
 			{#if post?.imageUrl}
 			<img src={post?.imageUrl} alt={post?.description} class="w-12 h-12 rounded-full object-cover" />
 			{/if}
@@ -28,9 +38,12 @@
 				<p>Posted {post?.createdAt}</p>
 			</div>
 			{#if $appUser?.username === post?.username}
-			<div class="flex gap-1">
-				<a href={`/write?edit=${post?.id}`}>Edit</a>
-				<button>Delete</button>
+			<div class="flex gap-2">
+				<a href={`/write?edit=${post?.id}`} class="btn btn-sm btn-outline">Edit</a>
+				<button class="btn btn-sm btn-error text-white"
+					on:click={handleDelete}>
+					Delete
+				</button>
 			</div>
 			{/if}
 		</div>
@@ -42,5 +55,5 @@
 		</p>
 	</div>
 	<!-- Side List -->
-	<SideList />
+	<SideList posts={data.posts}/>
 </section>
