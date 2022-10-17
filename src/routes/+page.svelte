@@ -18,11 +18,6 @@
     })
   })
 
-  function handleLikeClicked() {
-    console.log('like click!!');
-    
-  }
-
   async function getPage() {
     if ($page.url.search) return
     try {
@@ -53,10 +48,7 @@
     <div class="flex-[2] overflow-hidden shadow-xl image-wrapper rounded-lg flex flex-col items-start">
       <img src="{post.imageUrl}" alt="{post.title}" class="object-cover w-full aspect-square">
       <div class="text-lg p-3">
-        <label for="like" class="cursor-pointer">like</label>
-        <button id="like" on:click={handleLikeClicked}>
-          <i class="fa-regular fa-heart"></i>
-        </button>
+        <p>likes {post.likes.length}</p>
       </div>
     </div>
     <div class="flex-[3] flex flex-col gap-4">

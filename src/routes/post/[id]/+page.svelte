@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
   import SideList from '$lib/components/SideList.svelte';
 	import { appUser } from '$lib/store/userStore';
 	import axios from 'axios';
@@ -26,14 +25,48 @@
 			console.log(error);
 		}
 	}
-	console.log($page.url);
 	
+	async function handleLike() {
+		if (!$appUser || !post) return
+		try {
+			let url = '/api/post/like'
+			if (post.likes.includes($appUser.username)) {
+				url = url + '/delete'
+			} else {
+				url = url + '/create'
+			}
+
+			const result = await axios.put(url, {
+					username: $appUser.username,
+					postId: post.id
+			})
+ 
+			if (result.status === 200) {
+			 post = result.data
+			} else {
+				throw new Error('failed to handle like')
+			}
+		} catch(err) {
+			console.log(err);
+		}
+			
+	}
 
 </script>
 
 <section class="flex gap-12 p-4">
 	<div class="flex-[5] flex flex-col gap-8">
-		<img src={post?.imageUrl} alt={post?.description} class="w-full h-[300px] object-cover" />
+		<div class="flex flex-col gap-2 items-start">
+			<img src={post?.imageUrl} alt={post?.description} class="w-full h-[300px] object-cover" />
+			<button class="text-lg text-red-700 px-4" on:click={handleLike}>
+				{#if post?.likes.includes($appUser ? $appUser.username : '')}
+				<i class="fa-solid fa-heart"></i>
+				{:else}
+				<i class="fa-regular fa-heart"></i>
+				{/if}
+				<span>{post ? post.likes.length : 0}</span>
+			</button>
+		</div>
 		<div class="flex items-center gap-5 text-sm">
 			{#if post?.imageUrl}
 			<img src={post?.imageUrl} alt={post?.description} class="w-12 h-12 rounded-full object-cover" />

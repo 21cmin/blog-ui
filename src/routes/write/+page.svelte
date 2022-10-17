@@ -17,7 +17,8 @@
 	  category: "art",
 	  username: "",
 	  id: 0,
-	  createdAt: ''
+	  createdAt: '',
+		likes: []
   }
 
 	const unsubscribe = appUser.subscribe(value => {
