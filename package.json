@@ -16,6 +16,7 @@
 		"@playwright/test": "^1.25.0",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/adapter-netlify": "^1.0.0-next.81",
+		"@sveltejs/adapter-vercel": "^1.0.0-next.79",
 		"@sveltejs/kit": "next",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",
