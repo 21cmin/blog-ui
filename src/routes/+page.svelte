@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { fetchUrl } from '$lib/constant/url';
 	import type { Post } from '$lib/model/Post';
-	import { login } from '$lib/store/userStore';
 	import axios from 'axios';
 	import { onMount, onDestroy } from 'svelte';
   import type { PageData } from './$types';
@@ -21,7 +21,7 @@
   async function getPage() {
     if ($page.url.search) return
     try {
-      const result = await axios.get(`/api/post?page=${++pageParam}`)
+      const result = await axios.get(`${fetchUrl}/post?page=${++pageParam}`)
       const pagePost: Post[] = result.data
       
       if (pagePost.length !== 0) {

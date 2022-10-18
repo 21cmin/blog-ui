@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
 	import type { UserAndPassword } from "$lib/model/User";
 	import { login } from "$lib/store/userStore";
 	import axios from "axios";
