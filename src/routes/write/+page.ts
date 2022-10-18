@@ -8,8 +8,7 @@ export const load: PageLoad = async ({ url, fetch }) => {
   if (query) {
     try {
       const result = await fetch(`${fetchUrl}/post/${query}`, {
-        method: 'GET',
-        mode: 'no-cors'
+        method: 'GET'
       })
       post = await result.json()
     } catch(error) {

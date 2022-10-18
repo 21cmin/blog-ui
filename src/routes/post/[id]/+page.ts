@@ -7,17 +7,13 @@ export const load: PageLoad = async ({ params, fetch }) => {
   let posts: Post[] = []
   try {
     let result = await fetch(`${fetchUrl}/post/${params.id}`, {
-      method: 'GET',
-      mode: 'no-cors'
+      method: 'GET'
     })
     if (result.ok) {
       post = await result.json()
     }
 
-    result = await fetch(`${fetchUrl}/post/category?cat=${post?.category}`, {
-      method: 'GET',
-      mode: 'no-cors'
-    })
+    result = await fetch(`${fetchUrl}/post/category?cat=${post?.category}`)
     if (result.ok) {
       posts = await result.json()
     }

@@ -10,12 +10,9 @@ export const load: PageLoad = async ({ fetch, url }) => {
     console.log(url);
     
     const result = await fetch(url, {
-      method: 'get',
-      mode: 'no-cors'
+      method: 'get'
     })
     if (result.ok) {
-      console.log(result.body);
-      
       posts = await result.json()
     }
   } catch(err) {
