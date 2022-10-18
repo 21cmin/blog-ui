@@ -7,11 +7,11 @@ const config: UserConfig = {
 		proxy: {
 			'/api': {
 				target: 'https://min-simple-blog.herokuapp.com/api',
-				changeOrigin: true,
-				rewrite: (path) => path.replace(/^\/api/, '')
+				changeOrigin: true
 			}
 		}
 	}
 };
 
 export default config;
+				// rewrite: (path) => path.replace(/^\/api/, '')
