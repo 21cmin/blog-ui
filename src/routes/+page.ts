@@ -6,6 +6,8 @@ export const load: PageLoad = async ({ fetch, url }) => {
   
   try {
     const url = '/api/post' + (category ? `/category?cat=${category}` : '?page=0')
+    console.log(url);
+    
     const result = await fetch(url, {
       method: 'get'
     })
