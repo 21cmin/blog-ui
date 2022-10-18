@@ -1,10 +1,9 @@
-import { fetchUrl } from '$lib/constant/url'
 import { appUser } from '$lib/store/userStore'
 import type { LayoutLoad } from './$types'
 
 export const load: LayoutLoad = async ({ fetch }) => {
   try {
-    const result = await fetch(`${fetchUrl}/user/verify`, {
+    const result = await fetch('/api/user/verify', {
       method: 'GET',
     })
     if (result.status === 200) {
@@ -13,7 +12,7 @@ export const load: LayoutLoad = async ({ fetch }) => {
       console.log(`user: ${name}`);
     } else if (result.status === 403) {
       console.log('send refresh token');
-      const result = await fetch(`${fetchUrl}/user/refresh`, {
+      const result = await fetch('/api/user/refresh', {
         method: 'GET'
       })
       if (result.status === 200) {

@@ -1,5 +1,4 @@
 import { goto } from "$app/navigation";
-import { fetchUrl } from "$lib/constant/url";
 import type { User, UserAndPassword } from "$lib/model/User";
 import axios from "axios";
 import { writable, type Writable } from "svelte/store";
@@ -10,7 +9,7 @@ export const login = async (user: UserAndPassword, goToMain: boolean = false): P
   const userForm = new FormData()
   userForm.append("username", user.username)
   userForm.append("password", user.password)
-  const result = await axios.post(`${fetchUrl}/login`, userForm)
+  const result = await axios.post("/api/login", userForm)
   if (result.status !== 200) throw new Error("login failed")
   const loginUser: User = { username: result.data.username }
   
@@ -21,7 +20,7 @@ export const login = async (user: UserAndPassword, goToMain: boolean = false): P
 export const logout = async () => {
   try {
     appUser.set(null)
-    await axios.get(`${fetchUrl}/user/logout`)
+    await axios.get("/api/user/logout")
   } catch(error) {
     console.log(error);
   }
@@ -29,7 +28,7 @@ export const logout = async () => {
 
 export const verifyUser = async () => {
   try {
-    const result = await axios.get(`${fetchUrl}/user/verify`)
+    const result = await axios.get('/api/user/verify')
     console.log(result.data);
   } catch(err) {
     console.log(err);

@@ -1,4 +1,3 @@
-import { fetchUrl } from "$lib/constant/url";
 import type { Post } from "$lib/model/Post";
 import axios from "axios";
 import { initializeApp } from "firebase/app";
@@ -28,10 +27,10 @@ export const uploadPost = async (post: Post, file: FileList | null, update: bool
   console.log(post);
   
   if (update) {
-    const result = await axios.put(`${fetchUrl}/post/${post.id}`, post)
+    const result = await axios.put(`/api/post/${post.id}`, post)
     console.log(result.data);
   } else {
-    const result = await axios.post(`${fetchUrl}/post/upload`, post)
+    const result = await axios.post('/api/post/upload', post)
     console.log(result.data);
   }
   

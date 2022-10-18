@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
   import SideList from '$lib/components/SideList.svelte';
-	import { fetchUrl } from '$lib/constant/url';
 	import { appUser } from '$lib/store/userStore';
 	import axios from 'axios';
 	import type { PageData } from './$types';
@@ -15,7 +14,7 @@
   async function handleDelete() {
 		if (!post?.id) return
 		try {
-			const result = await axios.delete(`${fetchUrl}/post/${post.id}`)
+			const result = await axios.delete(`/api/post/${post.id}`)
 			if (result.status === 202) {
 				alert("post is deleted successfully")
 				goto('/')
@@ -30,7 +29,7 @@
 	async function handleLike() {
 		if (!$appUser || !post) return
 		try {
-			let url = `${fetchUrl}/post/like`
+			let url = '/api/post/like'
 			if (post.likes.includes($appUser.username)) {
 				url = url + '/delete'
 			} else {
