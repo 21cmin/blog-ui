@@ -8,8 +8,14 @@ export const load: PageLoad = async ({ url, fetch }) => {
     try {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       const result = await fetch(`/api/post/${query}`, {
         method: 'GET'
+=======
+      const result = await fetch(`${fetchUrl}/post/${query}`, {
+        method: 'GET',
+        mode: 'no-cors'
+>>>>>>> parent of 297768e... Revert "cors"
 =======
       const result = await fetch(`${fetchUrl}/post/${query}`, {
         method: 'GET',
