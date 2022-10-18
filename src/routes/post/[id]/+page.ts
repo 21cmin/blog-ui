@@ -7,8 +7,14 @@ export const load: PageLoad = async ({ params, fetch }) => {
   try {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     let result = await fetch(`/api/post/${params.id}`, {
       method: 'GET'
+=======
+    let result = await fetch(`${fetchUrl}/post/${params.id}`, {
+      method: 'GET',
+      mode: 'no-cors'
+>>>>>>> parent of 297768e... Revert "cors"
 =======
     let result = await fetch(`${fetchUrl}/post/${params.id}`, {
       method: 'GET',
@@ -26,8 +32,11 @@ export const load: PageLoad = async ({ params, fetch }) => {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     result = await fetch(`/api/post/category?cat=${post?.category}`)
 =======
+=======
+>>>>>>> parent of 297768e... Revert "cors"
 =======
 >>>>>>> parent of 297768e... Revert "cors"
     result = await fetch(`${fetchUrl}/post/category?cat=${post?.category}`, {
@@ -35,6 +44,9 @@ export const load: PageLoad = async ({ params, fetch }) => {
       mode: 'no-cors'
     })
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 297768e... Revert "cors"
+=======
 >>>>>>> parent of 297768e... Revert "cors"
 =======
 >>>>>>> parent of 297768e... Revert "cors"
