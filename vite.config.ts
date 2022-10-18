@@ -8,7 +8,7 @@ const config: UserConfig = {
 			'/api': {
 				target: 'https://min-simple-blog.herokuapp.com/api',
 				changeOrigin: true,
-				rewrite: (path) => path.replace(/^\/api/, 'https://min-simple-blog.herokuapp.com/api')
+				rewrite: (path) => path.replace(/^\/api/, '')
 			}
 		}
 	}
