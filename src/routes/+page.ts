@@ -10,7 +10,7 @@ export const load: PageLoad = async ({ fetch, url }) => {
     
     const result = await fetch(url, {
       method: 'get',
-      mode: 'cors'
+      mode: 'no-cors'
     })
     if (result.ok) {
       posts = await result.json()
