@@ -5,11 +5,12 @@ export const load: PageLoad = async ({ fetch, url }) => {
   const category = url.searchParams.get('cat')
   
   try {
-    const url = '/api/post' + (category ? `/category?cat=${category}` : '?page=0')
+    const url = 'https://min-simple-blog.herokuapp.com/api/post' + (category ? `/category?cat=${category}` : '?page=0')
     console.log(url);
     
     const result = await fetch(url, {
-      method: 'get'
+      method: 'get',
+      mode: 'cors'
     })
     if (result.ok) {
       posts = await result.json()
