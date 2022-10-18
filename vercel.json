@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    {"source": "/api" , "destination" : "https://min-simple-blog.herokuapp.com/api"}
+    {"source": "/api/**" , "destination" : "https://min-simple-blog.herokuapp.com/api"}
   ]
 }
