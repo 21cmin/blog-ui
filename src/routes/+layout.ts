@@ -5,7 +5,6 @@ export const load: LayoutLoad = async ({ fetch }) => {
   try {
     const result = await fetch('/api/user/verify', {
       method: 'GET',
-      mode: 'no-cors'
     })
     if (result.status === 200) {
       const name = await result.text()
