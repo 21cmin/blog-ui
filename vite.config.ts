@@ -3,15 +3,6 @@ import type { UserConfig } from 'vite';
 
 const config: UserConfig = {
 	plugins: [sveltekit()],
-	server: {
-		proxy: {
-			'/api': {
-				target: 'https://min-simple-blog.herokuapp.com/api',
-				changeOrigin: true,
-				rewrite: (path) => path.replace(/^\/api/, '')
-			}
-		}
-	}
 };
 
 export default config;

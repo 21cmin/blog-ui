@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import type { Post } from '$lib/model/Post';
-	import { login } from '$lib/store/userStore';
 	import axios from 'axios';
 	import { onMount, onDestroy } from 'svelte';
   import type { PageData } from './$types';

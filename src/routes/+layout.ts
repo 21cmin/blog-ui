@@ -1,10 +1,9 @@
-import { backEnd } from '$lib/constants/urls'
 import { appUser } from '$lib/store/userStore'
 import type { LayoutLoad } from './$types'
 
 export const load: LayoutLoad = async ({ fetch }) => {
   try {
-    const result = await fetch(backEnd + '/api/user/verify', {
+    const result = await fetch(import.meta.env.VITE_API_URL + `/api/user/verify`, {
       method: 'GET',
     })
     if (result.status === 200) {
@@ -13,7 +12,7 @@ export const load: LayoutLoad = async ({ fetch }) => {
       console.log(`user: ${name}`);
     } else if (result.status === 403) {
       console.log('send refresh token');
-      const result = await fetch(backEnd + '/api/user/refresh', {
+      const result = await fetch(import.meta.env.VITE_API_URL + `/api/user/refresh`, {
         method: 'GET'
       })
       if (result.status === 200) {

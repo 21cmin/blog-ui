@@ -14,7 +14,7 @@
   async function handleDelete() {
 		if (!post?.id) return
 		try {
-			const result = await axios.delete(`/api/post/${post.id}`)
+			const result = await axios.delete(`${import.meta.env.VITE_API_URL}/api/post/${post.id}`)
 			if (result.status === 202) {
 				alert("post is deleted successfully")
 				goto('/')

@@ -4,12 +4,12 @@ import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA1u5z_kThWjef2rNb_LsFCpEtNx5HB_bg",
-  authDomain: "blog-2e8d6.firebaseapp.com",
-  projectId: "blog-2e8d6",
-  storageBucket: "blog-2e8d6.appspot.com",
-  messagingSenderId: "441624712300",
-  appId: "1:441624712300:web:d69ac53f1b40f602e4b449"
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
@@ -27,10 +27,10 @@ export const uploadPost = async (post: Post, file: FileList | null, update: bool
   console.log(post);
   
   if (update) {
-    const result = await axios.put(`/api/post/${post.id}`, post)
+    const result = await axios.put(`${import.meta.env.VITE_API_URL}/api/post/${post.id}`, post)
     console.log(result.data);
   } else {
-    const result = await axios.post('/api/post/upload', post)
+    const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/post/upload`, post)
     console.log(result.data);
   }
   

@@ -1,6 +1,5 @@
 <script lang="ts">
   import axios from 'axios'
-  import { goto } from '$app/navigation'
   import { login } from '$lib/store/userStore'
 	import type { UserAndPassword } from '$lib/model/User';
 
@@ -19,7 +18,7 @@
       return
     }
     try {
-      const result = await axios.post('/api/user', user)
+      const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/user`, user)
       if (result.status !== 201) throw new Error("회원 가입에 실패하였습니다.");
       login(user, true) 
     } catch(err) {
