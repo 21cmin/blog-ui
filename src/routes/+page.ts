@@ -5,8 +5,7 @@ export const load: PageLoad = async ({ fetch, url }) => {
   const category = url.searchParams.get('cat')
   
   try {
-    const url = import.meta.env.VITE_API_URL + `/api/post` + (category ? `/category?cat=${category}` : '?page=0')
-    console.log(url);
+    const url = `/api/post` + (category ? `/category?cat=${category}` : '?page=0')
     
     const result = await fetch(url, {
       method: 'get',

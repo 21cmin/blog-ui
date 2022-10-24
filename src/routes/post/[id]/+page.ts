@@ -5,14 +5,14 @@ export const load: PageLoad = async ({ params, fetch }) => {
   let post: Post | null = null
   let posts: Post[] = []
   try {
-    let result = await fetch(`${import.meta.env.VITE_API_URL}/api/post/${params.id}`, {
+    let result = await fetch(`/api/post/${params.id}`, {
       method: 'GET'
     })
     if (result.ok) {
       post = await result.json()
     }
 
-    result = await fetch(`${import.meta.env.VITE_API_URL}/api/post/category?cat=${post?.category}`)
+    result = await fetch(`/api/post/category?cat=${post?.category}`)
     if (result.ok) {
       posts = await result.json()
     }

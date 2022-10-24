@@ -27,10 +27,10 @@ export const uploadPost = async (post: Post, file: FileList | null, update: bool
   console.log(post);
   
   if (update) {
-    const result = await axios.put(`${import.meta.env.VITE_API_URL}/api/post/${post.id}`, post)
+    const result = await axios.put(`/api/post/${post.id}`, post)
     console.log(result.data);
   } else {
-    const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/post/upload`, post)
+    const result = await axios.post(`/api/post/upload`, post)
     console.log(result.data);
   }
   

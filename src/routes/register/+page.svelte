@@ -1,6 +1,5 @@
 <script lang="ts">
-  import axios from 'axios'
-  import { login } from '$lib/store/userStore'
+  import { login, registerUser } from '$lib/store/userStore'
 	import type { UserAndPassword } from '$lib/model/User';
 
   let user: UserAndPassword = {
@@ -11,26 +10,17 @@
   let errorMessage = ""
 
   async function handleSubmit() {
-    if (!confirmPassword()) {
-      errorMessage = "비밀번호가 일치하지 않습니다"
-      user.password = ""
-      passwordConfirm = ""
-      return
-    }
+    if (user.password !== passwordConfirm) return
     try {
-      const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/user`, user)
-      if (result.status !== 201) throw new Error("회원 가입에 실패하였습니다.");
-      login(user, true) 
-    } catch(err) {
-      errorMessage = "회원 가입에 실패하였습니다."
+      await registerUser(user)
+      await login(user, true)
+    } catch(error) {
+      if (error instanceof Error) {
+        errorMessage = error.message
+      } else {
+        errorMessage = '회원가입에 실패하였습니다.'
+      }
     }
-  }
-
-  function confirmPassword() {
-    if (user.password === passwordConfirm) {
-      return true
-    }
-    return false
   }
 
 </script>
