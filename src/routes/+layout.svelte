@@ -1,7 +1,16 @@
 <script lang="ts">
-import Footer from "$lib/components/Footer.svelte";
-import Navbar from "$lib/components/Navbar.svelte";
-import "../app.css"
+  import Footer from "$lib/components/Footer.svelte";
+  import Navbar from "$lib/components/Navbar.svelte";
+	import { onMount } from "svelte";
+  import { appUser } from "$lib/store/userStore";
+  import "../app.css"
+
+onMount(() => {
+  const user = localStorage.getItem('user')
+  if (user) {
+    appUser.set({ username: user })
+  }
+})
 
 </script>
 <div class="flex min-h-screen flex-col">

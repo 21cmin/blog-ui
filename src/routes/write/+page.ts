@@ -6,7 +6,7 @@ export const load: PageLoad = async ({ url, fetch }) => {
   const query = url.searchParams.get('edit')
   if (query) {
     try {
-      const result = await fetch(`/api/post/${query}`, {
+      const result = await fetch(`${import.meta.env.VITE_SERVER}/api/post/page${query}`, {
         method: 'GET'
       })
       post = await result.json()

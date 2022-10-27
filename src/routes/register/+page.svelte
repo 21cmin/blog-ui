@@ -1,6 +1,7 @@
 <script lang="ts">
   import { login, registerUser } from '$lib/store/userStore'
 	import type { UserAndPassword } from '$lib/model/User';
+	import { } from 'axios';
 
   let user: UserAndPassword = {
     username: "",

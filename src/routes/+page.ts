@@ -5,13 +5,15 @@ export const load: PageLoad = async ({ fetch, url }) => {
   const category = url.searchParams.get('cat')
   
   try {
-    const url = `/api/post` + (category ? `/category?cat=${category}` : '?page=0')
+    const url = `${import.meta.env.VITE_SERVER}/api/post` + (category ? `/category?cat=${category}` : '/page?page=0')
     
     const result = await fetch(url, {
       method: 'get',
     })
     if (result.ok) {
       posts = await result.json()
+      console.log(posts);
+      
     }
   } catch(err) {
     console.log(err);
