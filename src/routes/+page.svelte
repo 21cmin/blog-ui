@@ -41,6 +41,7 @@
   onDestroy(unsbscribe)
   
 </script>
+
 <section class="flex flex-col items-center gap-20 mb-10">
   {#each posts as post (post.id)}
   <div class="flex gap-10 flex-row odd:flex-row-reverse card-wrapper w-full">
