@@ -20,7 +20,7 @@
   async function getPage() {
     if ($page.url.search) return
     try {
-      const result = await axios.get(`/api/post?page=${++pageParam}`)
+      const result = await axios.get(`${import.meta.env.VITE_SERVER}/api/post/page?page=${++pageParam}`)
       const pagePost: Post[] = result.data
       
       if (pagePost.length !== 0) {

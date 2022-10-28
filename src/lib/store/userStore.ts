@@ -23,7 +23,9 @@ export const login = async (user: UserAndPassword, goToMain: boolean = false): P
   const userForm = new FormData()
   userForm.append("username", user.username)
   userForm.append("password", user.password)
-  const result = await axios.post(`${SERVER}/api/login`, userForm)
+  const result = await axios.post(`${SERVER}/api/login`, userForm, {
+    withCredentials: true,
+  })
   if (result.status !== 200) throw new Error("로그인에 실패하였습니다.")
   const loginUser: User = { username: result.data.username }
   

@@ -6,5 +6,5 @@ export type Post = {
   category: string
   username: string
   createdAt: string
-  likes: string[]
+  likes: number[]
 }
