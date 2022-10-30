@@ -1,5 +1,5 @@
+import { useAxiosPrivate } from "$lib/axios";
 import type { Post } from "$lib/model/Post";
-import axios from "axios";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
@@ -15,7 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app)
 
-export const uploadPost = async (post: Post, file: FileList | null, update: boolean): Promise<never | void> => {
+export const uploadPost = async (post: Post, file: FileList | null, update: boolean, accessKey: string): Promise<never | void> => {
   if (file && file[0]) {
     const selectedFile = file[0]
     const imgRef = ref(storage, `${post.username}/${selectedFile.name}`)
@@ -26,11 +26,12 @@ export const uploadPost = async (post: Post, file: FileList | null, update: bool
   }
   console.log(post);
   
+  const axiosPriavate = useAxiosPrivate()
   if (update) {
-    const result = await axios.put(`/api/post/${post.id}`, post)
+    const result = await axiosPriavate.put(`/api/post`, post)
     console.log(result.data);
   } else {
-    const result = await axios.post(`/api/post/upload`, post)
+    const result = await axiosPriavate.post(`/api/post`, post)
     console.log(result.data);
   }
   

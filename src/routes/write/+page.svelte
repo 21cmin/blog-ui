@@ -5,10 +5,13 @@
 	import { uploadPost } from '$lib/firebase/firebaseConfig'
 	import type { PageData } from './$types'
 	import { goto } from '$app/navigation';
+	import type { User } from '$lib/model/User';
 
 	export let data: PageData
 
 	let file: FileList | null = null
+
+	let user: User | null
 	
   let post: Post = {
 	  title: "",
@@ -23,15 +26,16 @@
 
 	const unsubscribe = appUser.subscribe(value => {
 		post.username = value ? value.username : ""
+		user = value
 	})
 
 	async function handleUpload() {
-		if (!post.username || !post.title || !post.description) {
+		if (!post.username || !post.title || !post.description || !user) {
 			console.log("포스트 데이터가 없습니다");
 			alert("포스트를 입력하세요")	
 		} else {
 			try {
-				await uploadPost(post, file, data.post ? true : false)
+				await uploadPost(post, file, data.post ? true : false, user.accessKey)
 				clearData()
 				alert("포스트가 업로드 되었습니다.")
 				goto('/')

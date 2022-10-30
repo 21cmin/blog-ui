@@ -8,7 +8,7 @@
 onMount(() => {
   const user = localStorage.getItem('user')
   if (user) {
-    appUser.set({ username: user })
+    appUser.set({ username: user, accessKey: $appUser ? $appUser.accessKey : "" })
   }
 })
 
