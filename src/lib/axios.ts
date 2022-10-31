@@ -1,7 +1,10 @@
 import axios from "axios";
 import type { AxiosRequestConfig, AxiosError } from "axios";
 import { refresh } from "$lib/store/userStore";
-import { appUser } from "$lib/store/userStore";
+
+interface MyAxiosConfig extends AxiosRequestConfig {
+    sent: boolean
+}
 
 const axiosPublic = axios.create({
     baseURL: import.meta.env.VITE_SERVER
@@ -16,21 +19,17 @@ interface MyAxiosConfig extends AxiosRequestConfig {
     sent: boolean
 }
 
-const useAxiosPrivate = () => {
-    let key: string
-    appUser.subscribe(user => key = user ? user.accessKey : "")
+const useAxiosPrivate = (accessToken: string) => {
     const requestInterceptor = axiosPrivate.interceptors.request.use(
-        (config: AxiosRequestConfig) => {
-            if (config.headers) {
-                config.headers['Authorization'] = `Bearer ${key}`
+        (config) => {
+            if (config.headers && !config.headers['Authorization']) {
+                config.headers['Authorization'] = `Bearer ${accessToken}`
                 config.headers['Content-Type'] = 'application/json'
-                console.log(`before: ${key}`);
-                
             }
-            return config
+            
+            return config as MyAxiosConfig
         },
         (error: AxiosError) => {
-            console.log(error.message);
             return Promise.reject(error)
         }
     )
@@ -38,17 +37,17 @@ const useAxiosPrivate = () => {
         response => response,
         async (error: AxiosError) => {
             const prevConfig = error.config as MyAxiosConfig
+            
             if (error.response?.status === 403 && prevConfig && prevConfig.headers && !prevConfig.sent) {
                 prevConfig.sent = true
-                const accessToken = await refresh()
-                prevConfig.headers['Authorization'] = `Bearer ${accessToken}`
-                console.log(`refresh!!!! ${accessToken}`);
-                console.log('prev headers', prevConfig.headers);
+                const newToken = await refresh()
+                prevConfig.headers['Authorization'] = `Bearer ${newToken}`
                 
-                
-                return axiosPrivate(prevConfig)
+                axiosPrivate(prevConfig)
             }
-            console.log(error.message);
+            
+            axiosPrivate.interceptors.request.eject(requestInterceptor)
+            axiosPrivate.interceptors.response.eject(responseInterceptor)
             return Promise.reject(error)
         }
     )

@@ -1,7 +1,7 @@
  <script lang="ts">
 import { appUser, logout } from '$lib/store/userStore'
 
-let hamburger: HTMLDivElement
+let hamburger: HTMLButtonElement
 let menuList: HTMLUListElement
 let showMenu = false
 
@@ -79,11 +79,11 @@ function handleMenuClick() {
         </a>
         {/if}
       </div>
-      <div class="hamburger" class:active="{showMenu}" bind:this={hamburger} on:click={handleMenuClick}>
+      <button class="hamburger" class:active="{showMenu}" bind:this={hamburger} on:click={handleMenuClick}>
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
-      </div>
+      </button>
     </div>
   </div>
  </nav>

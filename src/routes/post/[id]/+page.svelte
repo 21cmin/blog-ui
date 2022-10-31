@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { axiosPrivate, useAxiosPrivate } from '$lib/axios';
   import SideList from '$lib/components/SideList.svelte';
 	import { appUser } from '$lib/store/userStore';
-	import axios from 'axios';
 	import type { PageData } from './$types';
   export let data: PageData;
 	
@@ -14,7 +14,7 @@
   async function handleDelete() {
 		if (!post?.id) return
 		try {
-			const result = await axios.delete(`/api/post/${post.id}`)
+			const result = await axiosPrivate.delete(`/api/post/${post.id}`)
 			if (result.status === 202) {
 				alert("post is deleted successfully")
 				goto('/')
@@ -36,7 +36,8 @@
 				url = url + '/create'
 			}
 
-			const result = await axios.put(url, {
+			const likeAxios = useAxiosPrivate($appUser.accessKey)
+			const result = await likeAxios.put(url, {
 					username: $appUser.username,
 					postId: post.id
 			})
@@ -67,10 +68,10 @@
 				<span>{post ? post.likes.length : 0}</span>
 			</button>
 		</div>
-		<div class="flex items-center gap-5 text-sm">
-			{#if post?.imageUrl}
-			<img src={post?.imageUrl} alt={post?.description} class="w-12 h-12 rounded-full object-cover" />
-			{/if}
+		<div class="flex items-center gap-4 text-sm">
+			<div class="w-12 h-12 rounded-full bg-red-400 flex justify-center items-center">
+				<span class="text-white font-semibold text-3xl">{post?.username[0]}</span>
+			</div>
 			<div>
 				<span class="font-bold">{post?.username}</span>
 				<p>Posted {time}</p>

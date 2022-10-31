@@ -12,7 +12,6 @@ export const load: PageLoad = async ({ fetch, url }) => {
     })
     if (result.ok) {
       posts = await result.json()
-      console.log(posts);
       
     }
   } catch(err) {

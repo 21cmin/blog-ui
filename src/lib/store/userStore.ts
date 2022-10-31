@@ -53,7 +53,6 @@ export const refresh = async () => {
   })
   if (result.status !== 200) throw new Error('filed to get authentication')
   appUser.update(user => userUpdater(user, result.data.access_token))
-  console.log('refresh user', appUser);
   
   return result.data.access_token
 }

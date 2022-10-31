@@ -15,26 +15,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app)
 
-export const uploadPost = async (post: Post, file: FileList | null, update: boolean, accessKey: string): Promise<never | void> => {
+export const uploadPost = async (post: Post, file: FileList | null, update: boolean, accessToken: string): Promise<never | void> => {
   if (file && file[0]) {
     const selectedFile = file[0]
     const imgRef = ref(storage, `${post.username}/${selectedFile.name}`)
-    console.log(imgRef.fullPath);
     
     const snapshot = await uploadBytes(imgRef, selectedFile)
     post.imageUrl = await makeImageUrl(snapshot.ref.fullPath)
   }
-  console.log(post);
   
-  const axiosPriavate = useAxiosPrivate()
+  const axiosPrivate = useAxiosPrivate(accessToken)
   if (update) {
-    const result = await axiosPriavate.put(`/api/post`, post)
-    console.log(result.data);
+    const result = await axiosPrivate.put(`/api/post`, post)
   } else {
-    const result = await axiosPriavate.post(`/api/post`, post)
-    console.log(result.data);
+    const result = await axiosPrivate.post(`/api/post`, post)
   }
-  
 }
 
 export const makeImageUrl = async (url:string) => {
