@@ -45,8 +45,8 @@
 <section class="flex flex-col items-center gap-20 mb-10">
   {#each posts as post (post.id)}
   <div class="flex gap-10 flex-row odd:flex-row-reverse card-wrapper w-full">
-    <div class="flex-[2] overflow-hidden shadow-xl image-wrapper rounded-lg flex flex-col items-start">
-      <img src="{post.imageUrl}" alt="{post.title}" class="object-cover w-full aspect-square">
+    <div class="flex-[2] overflow-hidden shadow-xl image-wrapper rounded-lg flex flex-col items-start aspect-square">
+      <img src="{post.imageUrl}" alt="{post.title}" class="object-cover w-full flex-1">
       <div class="text-lg p-3">
         <p>likes {post.likes.length}</p>
       </div>

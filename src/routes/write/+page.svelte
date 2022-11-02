@@ -1,11 +1,14 @@
 <script lang="ts">
   import type { Post } from '$lib/model/Post'
-	import { appUser } from '$lib/store/userStore'
+	import { appUser, logout } from '$lib/store/userStore'
 	import { onDestroy, onMount } from 'svelte';
-	import { uploadPost } from '$lib/firebase/firebaseConfig'
+	import { storage } from '$lib/firebase/firebaseConfig'
 	import type { PageData } from './$types'
 	import { goto } from '$app/navigation';
 	import type { User } from '$lib/model/User';
+	import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+	import { useAxiosPrivate } from '$lib/axios';
+	import axios, { type AxiosResponse } from 'axios';
 
 	export let data: PageData
 
@@ -34,15 +37,41 @@
 			console.log("포스트 데이터가 없습니다");
 			alert("포스트를 입력하세요")	
 		} else {
+			const uploadAxios = useAxiosPrivate(user.accessKey)
 			try {
-				await uploadPost(post, file, data.post ? true : false, user.accessKey)
-				clearData()
-				alert("포스트가 업로드 되었습니다.")
-				goto('/')
+				if (file && file[0]) {
+					const selectedFile = file[0]
+					const imgRef = ref(storage, `${post.username}/${selectedFile.name}`)
+					
+					const snapshot = await uploadBytes(imgRef, selectedFile)
+					post.imageUrl = await getDownloadURL(ref(storage, snapshot.ref.fullPath))
+				}
+				
+				let result: AxiosResponse
+				if (data.post) {
+					result = await uploadAxios.put(`/api/post`, post)
+				} else {
+					result = await uploadAxios.post(`/api/post`, post)
+				}
+				
+				if (result.status === 201 || result.status === 202) {
+					alert("포스트가 업로드 되었습니다.")
+					goto('/')
+				}
+
 			} catch(error) {
-				console.log(error);
-				alert("포스트 업로드에 실패했습니다.")
+				if(axios.isAxiosError(error)) {
+					if (error.response?.status === 401) {
+						alert("포스트 업로드에 실패했습니다.")
+						await logout()
+					} else if (error.response?.status === 200) {
+						alert("포스트가 업로드 되었습니다.")
+					}
+					goto('/')
+				}
 			}
+			uploadAxios.interceptors.request.clear()
+			uploadAxios.interceptors.response.clear()
 		}
 	}
 

@@ -20,20 +20,22 @@ interface MyAxiosConfig extends AxiosRequestConfig {
 }
 
 const useAxiosPrivate = (accessToken: string) => {
-    const requestInterceptor = axiosPrivate.interceptors.request.use(
+    axiosPrivate.interceptors.request.use(
         (config) => {
-            if (config.headers && !config.headers['Authorization']) {
-                config.headers['Authorization'] = `Bearer ${accessToken}`
-                config.headers['Content-Type'] = 'application/json'
+            if (!config.headers) throw new Error('no request headers')
+            if (!config.headers['Authorization']) {
+                config.headers = {
+                    ...config.headers,
+                    'Authorization': `Bearer ${accessToken}`
+                }
             }
-            
             return config as MyAxiosConfig
         },
         (error: AxiosError) => {
-            return Promise.reject(error)
-        }
+            return Promise.reject(error) 
+       }
     )
-    const responseInterceptor = axiosPrivate.interceptors.response.use(
+    axiosPrivate.interceptors.response.use(
         response => response,
         async (error: AxiosError) => {
             const prevConfig = error.config as MyAxiosConfig
@@ -41,16 +43,18 @@ const useAxiosPrivate = (accessToken: string) => {
             if (error.response?.status === 403 && prevConfig && prevConfig.headers && !prevConfig.sent) {
                 prevConfig.sent = true
                 const newToken = await refresh()
-                prevConfig.headers['Authorization'] = `Bearer ${newToken}`
-                
-                axiosPrivate(prevConfig)
+                prevConfig.headers = {
+                    ...prevConfig.headers,
+                    'Authorization': `Bearer ${newToken}`
+                }
+                const result = await axiosPrivate(prevConfig)
+                error.response = result
+                error.response.status = 200
             }
-            
-            axiosPrivate.interceptors.request.eject(requestInterceptor)
-            axiosPrivate.interceptors.response.eject(responseInterceptor)
             return Promise.reject(error)
         }
     )
+
     return axiosPrivate
 }
 

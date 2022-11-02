@@ -3,6 +3,7 @@
 	import { axiosPrivate, useAxiosPrivate } from '$lib/axios';
   import SideList from '$lib/components/SideList.svelte';
 	import { appUser } from '$lib/store/userStore';
+	import axios from 'axios';
 	import type { PageData } from './$types';
   export let data: PageData;
 	
@@ -48,9 +49,10 @@
 				throw new Error('failed to handle like')
 			}
 		} catch(err) {
-			console.log(err);
+			if (axios.isAxiosError(err) && err.response?.status === 200) {
+				post = err.response.data	
+			}
 		}
-			
 	}
 
 </script>

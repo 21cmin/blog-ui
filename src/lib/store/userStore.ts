@@ -52,15 +52,13 @@ export const refresh = async () => {
     withCredentials: true
   })
   if (result.status !== 200) throw new Error('filed to get authentication')
-  appUser.update(user => userUpdater(user, result.data.access_token))
+  appUser.update(user => {
+    if (user) {
+      user = {...user, accessKey: result.data.access_token}
+      return user
+    }
+    return null
+  })
   
   return result.data.access_token
-}
-
-const userUpdater = (user: User | null, key: string) => {
-  if (user) {
-    user = {...user, accessKey: key}
-    return user
-  }
-  return null
 }
