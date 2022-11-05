@@ -150,7 +150,7 @@
 				<label for="design">Design</label>
 			</div>
 			<div class="cat">
-				<input type="radio" name="cat" id="foot" value="foot" bind:group="{post.category}"
+				<input type="radio" name="cat" id="foot" value="food" bind:group="{post.category}"
         class="radio radio-primary"/>
 				<label for="foot">Food</label>
 			</div>
